@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Vibes | Frontend Battle 2.0</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== BASE STYLES ===== */
+        :root {
+            --primary: #6d28d9;
+            --secondary: #4f46e5;
+            --accent: #ec4899;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            transition: background-color 0.5s ease;
+        }
+        
+        body.dark-mode {
+            background-color: var(--dark);
+            color: var(--light);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 80px 0;
+        }
+        
+        h1, h2, h3, h4 {
+            line-height: 1.2;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* ===== PRELOADER ===== */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.7s ease, visibility 0.7s ease;
+        }
+        
+        body.dark-mode #preloader {
+            background-color: var(--dark);
+        }
+        
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 8px solid var(--light-gray);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* ===== NAVIGATION ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        body.dark-mode nav {
+            background-color: rgba(30, 41, 59, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        body.dark-mode .nav-links a {
+            color: var(--light);
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark);
+            cursor: pointer;
+        }
+        
+        body.dark-mode .mobile-menu-btn {
+            color: var(--light);
+        }
+        
+        /* ===== HERO SECTION ===== */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            background: linear-gradient(135deg, rgba(109, 40, 217, 0.1), rgba(79, 70, 229, 0.1));
+        }
+        
+        .hero-content {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .hero-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 40px;
+        }
+        
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero-text p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 30px;
+        }
+        
+        body.dark-mode .hero-text p {
+            color: var(--light-gray);
+        }
+        
+        .hero-image {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+        
+        .hero-image img {
+            border-radius: 20px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            transform: rotate(3deg);
+            transition: transform 0.5s ease;
+        }
+        
+        .hero-image:hover img {
+            transform: rotate(0deg);
+        }
+        
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.7;
+            z-index: -1;
+        }
+        
+        .blob-1 {
+            width: 200px;
+            height: 200px;
+            background-color: var(--primary);
+            bottom: -50px;
+            left: -50px;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .blob-2 {
+            width: 150px;
+            height: 150px;
+            background-color: var(--accent);
+            top: -50px;
+            right: -50px;
+            animation: pulse 6s ease-in-out infinite;
+        }
+        
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(109, 40, 217, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(109, 40, 217, 0.4);
+        }
+        
+        .btn-secondary {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            margin-left: 15px;
+        }
+        
+        body.dark-mode .btn-secondary {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(109, 40, 217, 0.1);
+        }
+        
+        /* ===== FEATURES SECTION ===== */
+        #features {
+            background-color: white;
+        }
+        
+        body.dark-mode #features {
+            background-color: #0f172a;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: var(--light);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark-mode .feature-card {
+            background-color: #1e293b;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .feature-card:nth-child(1) .feature-icon {
+            background: linear-gradient(to bottom right, #8b5cf6, #6366f1);
+        }
+        
+        .feature-card:nth-child(2) .feature-icon {
+            background: linear-gradient(to bottom right, #10b981, #06b6d4);
+        }
+        
+        .feature-card:nth-child(3) .feature-icon {
+            background: linear-gradient(to bottom right, #f59e0b, #ef4444);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            color: var(--gray);
+        }
+        
+        body.dark-mode .feature-card p {
+            color: var(--light-gray);
+        }
+        
+        /* ===== SHOWCASE SECTION ===== */
+        #showcase {
+            background: linear-gradient(135deg, rgba(109, 40, 217, 0.05), rgba(79, 70, 229, 0.05));
+        }
+        
+        body.dark-mode #showcase {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+        }
+        
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .showcase-item {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .showcase-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .showcase-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .showcase-content {
+            padding: 20px;
+            background-color: white;
+        }
+        
+        body.dark-mode .showcase-content {
+            background-color: #1e293b;
+        }
+        
+        /* ===== TESTIMONIALS SECTION ===== */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background: linear-gradient(135deg, rgba(109, 40, 217, 0.1), rgba(79, 70, 229, 0.1));
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        body.dark-mode .testimonial-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            border: 3px solid var(--primary);
+        }
+        
+        .testimonial-info h4 {
+            font-size: 1.2rem;
+        }
+        
+        .testimonial-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* ===== CARBON DASHBOARD SECTION ===== */
+        #carbon-dashboard {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(109, 40, 217, 0.05));
+        }
+        
+        body.dark-mode #carbon-dashboard {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+        }
+        
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .dashboard-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark-mode .dashboard-card {
+            background-color: #1e293b;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dashboard-header {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .dashboard-header h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .dashboard-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .dashboard-value small {
+            font-size: 1rem;
+            color: var(--gray);
+        }
+        
+        .timeline-years {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .timeline-bar {
+            height: 8px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .timeline-progress {
+            height: 100%;
+            border-radius: 4px;
+        }
+        
+        .timeline-data {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .data-item {
+            text-align: center;
+        }
+        
+        .data-value {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .data-change {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 20px;
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .dashboard-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .dashboard-footer .btn {
+            padding: 8px 20px;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-footer {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .dashboard-footer .btn {
+                width: 100%;
+            }
+        }
+        
+        /* ===== STATS SECTION ===== */
+        #stats {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+        
+        .stat-item h3 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        /* ===== FOOTER ===== */
+        footer {
+            background-color: var(--dark);
+            color: var(--light-gray);
+            padding: 60px 0 30px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-col h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-col a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-col a:hover {
+            color: var(--primary);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* ===== BACK TO TOP BUTTON ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(109, 40, 217, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* ===== ANIMATIONS ===== */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 0.9; }
+        }
+        
+        /* ===== DARK MODE TOGGLE ===== */
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--dark);
+            transition: transform 0.3s ease;
+        }
+        
+        body.dark-mode .theme-toggle {
+            color: var(--light);
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        /* ===== MOBILE MENU ===== */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                transform: translateY(-150%);
+                transition: transform 0.3s ease;
+                z-index: 99;
+            }
+            
+            body.dark-mode .nav-links {
+                background-color: var(--dark);
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero-text {
+                padding-right: 0;
+                margin-bottom: 40px;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <a href="#" class="logo">CreativeVibes</a>
+            
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#showcase">Showcase</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#carbon-dashboard">Sustainability</a></li>
+                <li>
+                    <button class="theme-toggle" id="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </li>
+            </ul>
+            
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Frontend Battle 2.0</h1>
+                    <p>Where creativity meets innovation in web development. Build stunning websites that captivate your audience.</p>
+                    <div class="btn-group">
+                        <a href="#features" class="btn btn-primary">Explore Features</a>
+                        <a href="#showcase" class="btn btn-secondary">View Showcase</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80" alt="Web Design Illustration">
+                    <div class="blob blob-1"></div>
+                    <div class="blob blob-2"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Amazing Features</h2>
+                <p>Discover what makes our solution stand out</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3>Ripple Effect</h3>
+                    <p>Beautiful ripple animations on button clicks and interactions that delight users.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3>Parallax Scrolling</h3>
+                    <p>Immersive depth effects that respond to scrolling for a dynamic experience.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Scroll Animations</h3>
+                    <p>Elements that animate as you scroll down the page for engaging storytelling.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Showcase Section -->
+    <section id="showcase">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Showcase</h2>
+                <p>See what we've built for our clients</p>
+            </div>
+            
+            <div class="showcase-grid">
+                <div class="showcase-item">
+                    <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80" alt="Website Project" class="showcase-img">
+                    <div class="showcase-content">
+                        <h3>Corporate Website</h3>
+                        <p>Modern design with seamless user experience</p>
+                    </div>
+                </div>
+                
+                <div class="showcase-item">
+                    <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80" alt="Website Project" class="showcase-img">
+                    <div class="showcase-content">
+                        <h3>E-commerce Platform</h3>
+                        <p>High-converting online store with intuitive navigation</p>
+                    </div>
+                </div>
+                
+                <div class="showcase-item">
+                    <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80" alt="Mobile App Project" class="showcase-img">
+                    <div class="showcase-content">
+                        <h3>Mobile Application</h3>
+                        <p>Responsive design that works across all devices</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Client Testimonials</h2>
+                <p>What our clients say about our work</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Sarah Johnson" class="testimonial-img">
+                        <div class="testimonial-info">
+                            <h4>Sarah Johnson</h4>
+                            <p>CEO, TechCorp</p>
+                        </div>
+                    </div>
+                    <p>"The team delivered beyond our expectations. The website has increased our conversions by 40%!"</p>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Michael Chen" class="testimonial-img">
+                        <div class="testimonial-info">
+                            <h4>Michael Chen</h4>
+                            <p>Founder, StartupX</p>
+                        </div>
+                    </div>
+                    <p>"Incredible attention to detail and innovative solutions. Highly recommended!"</p>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emma Rodriguez" class="testimonial-img">
+                        <div class="testimonial-info">
+                            <h4>Emma Rodriguez</h4>
+                            <p>Marketing Director</p>
+                        </div>
+                    </div>
+                    <p>"The redesign has transformed our digital presence. Our engagement metrics are through the roof!"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carbon Dashboard Section -->
+    <section id="carbon-dashboard">
+        <div class="container">
+            <div class="section-title">
+                <h2>Sustainability Metrics</h2>
+                <p>Tracking our environmental impact over time</p>
+            </div>
+            
+            <div class="dashboard-container">
+                <!-- Carbon Footprint Card -->
+                <div class="dashboard-card">
+                    <div class="dashboard-header">
+                        <h3>Managed portfolio carbon footprint</h3>
+                        <div class="dashboard-value">45,048</div>
+                    </div>
+                    
+                    <div class="dashboard-timeline">
+                        <div class="timeline-years">
+                            <span>2022</span>
+                            <span>2021</span>
+                            <span>2020</span>
+                            <span>2019</span>
+                        </div>
+                        
+                        <div class="timeline-bar">
+                            <div class="timeline-progress" style="width: 100%; background-color: #6d28d9;"></div>
+                        </div>
+                        
+                        <div class="timeline-data">
+                            <div class="data-item">
+                                <span class="data-value">45,048</span>
+                                <span class="data-change">14%</span>
+                            </div>
+                            <div class="data-item">
+                                <span class="data-value">32,813</span>
+                                <span class="data-change">22%</span>
+                            </div>
+                            <div class="data-item">
+                                <span class="data-value">38,673</span>
+                                <span class="data-change">16%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Energy Intensity Card -->
+                <div class="dashboard-card">
+                    <div class="dashboard-header">
+                        <h3>Managed portfolio energy intensity</h3>
+                        <div class="dashboard-value">123 <small>kWh/m²</small></div>
+                    </div>
+                    
+                    <div class="dashboard-timeline">
+                        <div class="timeline-years">
+                            <span>2022</span>
+                            <span>2021</span>
+                            <span>2020</span>
+                            <span>2019</span>
+                        </div>
+                        
+                        <div class="timeline-bar">
+                            <div class="timeline-progress" style="width: 75%; background-color: #ec4899;"></div>
+                        </div>
+                        
+                        <div class="timeline-data">
+                            <div class="data-item">
+                                <span class="data-value">123</span>
+                                <span class="data-change">22%</span>
+                            </div>
+                            <div class="data-item">
+                                <span class="data-value">98</span>
+                                <span class="data-change">15%</span>
+                            </div>
+                            <div class="data-item">
+                                <span class="data-value">112</span>
+                                <span class="data-change">8%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Energy Consumption Card -->
+                <div class="dashboard-card">
+                    <div class="dashboard-header">
+                        <h3>Managed portfolio energy consumption</h3>
+                        <div class="dashboard-value">47,790,662 <small>kWh</small></div>
+                    </div>
+                    
+                    <div class="dashboard-timeline">
+                        <div class="timeline-years">
+                            <span>2022</span>
+                            <span>2021</span>
+                            <span>2020</span>
+                            <span>2019</span>
+                        </div>
+                        
+                        <div class="timeline-bar">
+                            <div class="timeline-progress" style="width: 85%; background-color: #10b981;"></div>
+                        </div>
+                        
+                        <div class="timeline-data">
+                            <div class="data-item">
+                                <span class="data-value">47,790,662</span>
+                                <span class="data-change">27%</span>
+                            </div>
+                            <div class="data-item">
+                                <span class="data-value">48,324,077</span>
+                                <span class="data-change">18%</span>
+                            </div>
+                            <div class="data-item">
+                                <span class="data-value">65,198,706</span>
+                                <span class="data-change">12%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-footer">
+                        <a href="#" class="btn btn-secondary">Download the data</a>
+                        <a href="#" class="btn btn-primary">See full breakdown</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>250+</h3>
+                    <p>Projects Completed</p>
+                </div>
+                <div class="stat-item">
+                    <h3>98%</h3>
+                    <p>Client Satisfaction</p>
+                </div>
+                <div class="stat-item">
+                    <h3>40+</h3>
+                    <p>Team Members</p>
+                </div>
+                <div class="stat-item">
+                    <h3>5+</h3>
+                    <p>Years Experience</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>CreativeVibes</h4>
+                    <p>Innovating the web, one pixel at a time.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#hero">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#showcase">Showcase</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                        <li><a href="#carbon-dashboard">Sustainability</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> hello@creativevibes.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> San Francisco, CA</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 CreativeVibes. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#hero" class="back-to-top" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script>
+        // Preloader
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('preloader').style.opacity = '0';
+                document.getElementById('preloader').style.visibility = 'hidden';
+            }, 1500);
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+            this.innerHTML = navLinks.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        
+        // Check for saved preference or system preference
+        if (localStorage.getItem('theme') === 'dark' || 
+            (!localStorage.getItem('theme') && 
+            window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+        
+        themeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                this.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                localStorage.setItem('theme', 'light');
+                this.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
+
+        // Back to Top Button
+        window.addEventListener('scroll', function() {
+            const backToTop = document.getElementById('back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile menu if open
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+        });
+
+        // Animation on Scroll
+        const animateOnScroll = function() {
+            const elements = document.querySelectorAll('.feature-card, .showcase-item, .testimonial-card, .dashboard-card');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+
+        // Initialize elements with opacity 0
+        document.querySelectorAll('.feature-card, .showcase-item, .testimonial-card, .dashboard-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease';
+        });
+
+        window.addEventListener('scroll', animateOnScroll);
+        animateOnScroll(); // Trigger once on load
+    </script>
+</body>
+</html>
